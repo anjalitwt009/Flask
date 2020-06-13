@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+padding-top: 5000px;
+    <title>Report</title>
+
+
+<ul>
+    <li>{{upload_time}}</li>
+    <li><p>Earliest Accounting Date:</p>{{earliest_date}}</li>
+    <li><p>Recent Accounting Date:</p>{{recent_date}}</li>
+</ul>
+<ul>
+    <li>{{number_of_rows_removed}}</li>
+</ul>
+<p>Summary Statistics:</p>
+    {{table|safe}}
+<hr>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<div style="height:1000px;padding-top: 150px;padding-bottom:150;background-color: #79b7e7">
+<div class="col-md-6 offset-md-3" style="height:550px; width:700px;padding-top: 30px;padding-bottom: 50px;background-color:black">
+    <div class="card">
+        <div class="card-body">
+        <canvas id="myChart" width="50px" height="30px" style="height:50px; width:50px;padding-top: 50px;padding-bottom: 50px"></canvas>
+        </div>
+    </div>
+    <div class="card-body">
+        <h1><button class="btn btn-success" onclick="updatedata()">Update</button></h1>
+    </div>
+</div>
+</div>
+datapack1={{data}}
+<!-- script for chart -->
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['July', 'August', 'September', 'October', 'November', 'December'],
+        datasets:[
+        {
+            label: 'Volume',
+            data: dataPack1,
+						backgroundColor: "rgba(55, 160, 225, 0.7)",
+						hoverBackgroundColor: "rgba(55, 160, 225, 0.7)",
+						hoverBorderWidth: 2,
+						hoverBorderColor: 'lightgrey'
+        },
+        {
+            label: 'Volume_comp',
+            data: [0,0,0,0,0,0],
+						backgroundColor: "rgba(225, 58, 55, 0.7)",
+						hoverBackgroundColor: "rgba(225, 58, 55, 0.7)",
+						hoverBorderWidth: 2,
+						hoverBorderColor: 'lightgrey'
+        },
+        ]
+    },
+    options: {
+
+      responsive: false,
+      legend: {
+         position: 'right' // place legend on the right side of chart
+      },
+      scales: {
+         xAxes: [{
+            stacked: true // this should be set to make the bars stacked
+         }],
+         yAxes: [{
+            stacked: true // this also..
+         }]
+      }
+   }
+
+    }
+});
+</script>
+</body>
+</html>
+
+{% endblock content %}
