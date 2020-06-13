@@ -1,0 +1,23 @@
+DealType,FIDealType,Sale Type
+Demo,Demo,New
+Lease,Demo,New
+Lease,New,New
+Misc,Misc,New
+nan,nan,New
+New,Misc,New
+New,nan,New
+New,New,New
+New,Rental,New
+Used,New,New
+Demo,Used,Used
+Fleet,Used,Used
+New,Used,Used
+Rental,Rental,Used
+Special Order,Special Order,Used
+Used,Misc,Used
+Used,Rental,Used
+Used,Used,Used
+Wholesale,Misc,Wholesale
+Wholesale,New,Wholesale
+Wholesale,Special Order,Wholesale
+Wholesale,Used,Wholesale
