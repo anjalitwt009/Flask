@@ -1,81 +1,72 @@
 {% extends "layout.html" %}
 {% block content %}
-padding-top: 5000px;
-    <title>Report</title>
+padding-top: 10000px;
+
+<h1>Report</h1>
 
 
 <ul>
-    <li>{{upload_time}}</li>
-    <li><p>Earliest Accounting Date:</p>{{earliest_date}}</li>
+    <li>Upload Time:{{upload_time}}</li><br>
+    <li><p>Earliest Accounting Date:</p>{{earliest_date}}</li><br>
     <li><p>Recent Accounting Date:</p>{{recent_date}}</li>
 </ul>
 <ul>
-    <li>{{number_of_rows_removed}}</li>
+    <li>Number of rows removed: {{number_of_rows_removed}}</li>
 </ul>
 <p>Summary Statistics:</p>
-    {{table|safe}}
+<div class="col-md-6 offset-md-3">
+    {{ tables.to_html(classes="table table-striped") | safe}}
+</div>
 <hr>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<div style="height:1000px;padding-top: 150px;padding-bottom:150;background-color: #79b7e7">
-<div class="col-md-6 offset-md-3" style="height:550px; width:700px;padding-top: 30px;padding-bottom: 50px;background-color:black">
+<div class="col-md-6 offset-md-3" style="height:480px; width:700px;padding-top: 30px;padding-bottom: 20px;background-color:black">
     <div class="card">
         <div class="card-body">
-        <canvas id="myChart" width="50px" height="30px" style="height:50px; width:50px;padding-top: 50px;padding-bottom: 50px"></canvas>
+            <canvas id="myChart" width="50px" height="30px" style="height:50px; width:50px;padding-top: 50px;padding-bottom: 50px"></canvas>
         </div>
     </div>
-    <div class="card-body">
-        <h1><button class="btn btn-success" onclick="updatedata()">Update</button></h1>
-    </div>
 </div>
-</div>
-datapack1={{data}}
-<!-- script for chart -->
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
+var ctx = document.getElementById('myChart');
+
 var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['July', 'August', 'September', 'October', 'November', 'December'],
-        datasets:[
-        {
-            label: 'Volume',
-            data: dataPack1,
-						backgroundColor: "rgba(55, 160, 225, 0.7)",
-						hoverBackgroundColor: "rgba(55, 160, 225, 0.7)",
-						hoverBorderWidth: 2,
-						hoverBorderColor: 'lightgrey'
-        },
-        {
-            label: 'Volume_comp',
-            data: [0,0,0,0,0,0],
-						backgroundColor: "rgba(225, 58, 55, 0.7)",
-						hoverBackgroundColor: "rgba(225, 58, 55, 0.7)",
-						hoverBorderWidth: 2,
-						hoverBorderColor: 'lightgrey'
-        },
-        ]
-    },
-    options: {
-
-      responsive: false,
-      legend: {
-         position: 'right' // place legend on the right side of chart
+  type: 'bar',
+  data: {
+    labels: ['June','July','August','September','October','November'],
+    datasets: [
+      {
+        label: '{{values[0]}}',
+        data: [{{counts1[0]}} ,{{counts2[0]}},{{counts3[0]}},{{counts4[0]}},{{counts5[0]}},{{counts6[0]}}],
+        backgroundColor: "#caf270",
       },
-      scales: {
-         xAxes: [{
-            stacked: true // this should be set to make the bars stacked
-         }],
-         yAxes: [{
-            stacked: true // this also..
-         }]
+      {
+        label: '{{values[1]}}',
+        data: [{{counts1[1]}},{{counts2[1]}},{{counts3[1]}},{{counts4[1]}},{{counts5[1]}},{{counts6[1]}}],
+        backgroundColor: "#45c490",
+      },
+      {
+        label: '{{values[2]}}',
+        data: [{{counts1[2]}},{{counts2[2]}},{{counts3[2]}},{{counts4[2]}},{{counts5[2]}},{{counts6[2]}}],
+        backgroundColor: "#008d93",
+      },
+        {
+        label: '{{values[3]}}',
+        data: [{{counts1[3]}},{{counts2[3]}},{{counts3[3]}},{{counts4[3]}},{{counts5[3]}},{{counts6[3]}}],
+        backgroundColor: "#2e5468",
       }
-   }
-
-    }
+    ]
+  },
+  options: {
+    scales: {
+      xAxes: [{ stacked: true }],
+      yAxes: [{ stacked: true }]
+    },
+      title: {
+            display: true,
+            text: 'Sales By Volume'
+        }
+  }
 });
 </script>
-</body>
-</html>
 
 {% endblock content %}
