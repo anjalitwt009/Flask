@@ -7,7 +7,8 @@ import csv
 import os
 from datetime import datetime
 import json, json2html
-UPLOAD_FOLDER = r'C:\Users\user\PycharmProjects\Assignment'
+
+UPLOAD_FOLDER = r'..\Assignment'
 ALLOWED_EXTENSIONS = set(['csv'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -35,10 +36,10 @@ def upload():
 @app.route("/analyze")
 def analyze():
     upload_time = datetime.utcnow()
-    for files in os.listdir(r"C:\Users\user\PycharmProjects\Assignment"):
+    for files in os.listdir(r"..\Assignment"):
         if files.endswith(".csv"):
-            df = pd.read_csv(r"C:\Users\user\PycharmProjects\Assignment\data.csv")
-            lookup_df = pd.read_csv(r"C:\Users\user\PycharmProjects\Assignment\lookup.csv")
+            df = pd.read_csv(r"..\Assignment\data.csv")
+            lookup_df = pd.read_csv(r"..\Assignment\lookup.csv")
 
             rows_before= len(df.index)
 
@@ -50,7 +51,7 @@ def analyze():
             data_df_new = data_df_new.rename({'Sale Type': 'SaleType_Clean'}, axis=1)
             data_df_new = pd.DataFrame(data_df_new)
 
-            data_df_new.to_csv(r"C:\Users\user\PycharmProjects\Assignment\SalesFile.csv")
+            data_df_new.to_csv(r"..\Assignment\SalesFile.csv")
 
             earliest_date = data_df_new['AccountingDate'].min()
             recent_date = data_df_new['AccountingDate'].max()
