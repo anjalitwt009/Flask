@@ -5,7 +5,7 @@ import os
 import glob
 import re
 import numpy as np
-
+import cv2 as cv
 # Keras
 from keras.applications.imagenet_utils import preprocess_input, decode_predictions
 from keras.models import load_model
@@ -69,14 +69,30 @@ def upload():
 
         # Make prediction
         preds = model_predict(file_path, model)
-
+        mask_image=mask_img(img_path,preds)
         # Process your result for human
-        # pred_class = preds.argmax(axis=-1)            # Simple argmax
-        pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
-        result = str(pred_class[0][0][1])               # Convert to string
+        # pred_class = preds.argmax(axis=-1)            
+        pred_class = decode_predictions(preds, top=1)  
+        result = str(pred_class[0][0][1])               
         return result
     return None
 
+def mask_img(img_path,preds):
+    if preds==lungs:
+        im_color = cv.imread(img_path, cv.IMREAD_COLOR)
+        im_gray = cv.cvtColor(im_color, cv.COLOR_BGR2GRAY)
+        _, mask = cv.threshold(im_gray, thresh=180, maxval=255, type=cv.THRESH_BINARY)
+        im_thresh_gray = cv.bitwise_and(im_gray, mask)
+
+        mask3 = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)  # 3 channel mask
+        mask3 = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)  # 3 channel mask
+
+        cv.imshow("original image", im_color)
+        cv.imshow("binary mask", mask)
+        cv.imshow("3 channel mask", mask3)
+        cv.imshow("im_thresh_gray", im_thresh_gray)
+        cv.imshow("im_thresh_color", im_thresh_color)
+        cv.waitKey(5000)
 
 if __name__ == '__main__':
     app.run(debug=True)
